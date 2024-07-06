@@ -1,4 +1,5 @@
 import openmeteo_requests
+import json
 
 from datetime import date, datetime
 
@@ -17,15 +18,17 @@ def get_the_weather_data():
 
     location = print_my_location(location_name)
 
-    input_date_text = sys.argv[2]
-    target_date = datetime.strptime(input_date_text, '%d/%m/%Y')
-
+    if len(sys.argv) > 2:
+        input_date_text = sys.argv[2]
+        target_date = datetime.strptime(input_date_text, '%d/%m/%Y').date()
+    else:
+        target_date = date.today()
 
     MAX_DAYS_FROM_TODAY = 16
-    days_from_today = (target_date.date() - date.today()).days
+    days_from_today = (target_date - date.today()).days
 
     if ((days_from_today > MAX_DAYS_FROM_TODAY) or (days_from_today < 0)):
-       print(f'Data not available for {target_date.date()}')
+       print(f'Data not available for {target_date}')
        exit(code=1)
 
     params = {
@@ -42,9 +45,9 @@ def get_the_weather_data():
     daily = response.Daily()
     daily_temperature_2m_max = daily.Variables(0).ValuesAsNumpy()
     daily_temperature_2m_min = daily.Variables(1).ValuesAsNumpy()
-    return {"tempretures_high":daily_temperature_2m_max[days_from_today],
-    "tempretures_low":daily_temperature_2m_min[days_from_today],
-    "Date":target_date.date(),
+    return {"tempretures_high":round(float(daily_temperature_2m_max[days_from_today]), 2),
+    "tempretures_low":round(float(daily_temperature_2m_min[days_from_today]), 2),
+    "Date":target_date,
     "Location":location_name}
 
 def print_the_weather(weather_data):
@@ -76,15 +79,21 @@ def print_my_location(location_name):
 
 
 
+def save_the_weather(weather_data):
+    history_filepath = 'check-weather-history.ndjson'
 
-
-
-
+    json_weather_data = {
+        "tempretures_high":weather_data['tempretures_high'],
+        "tempretures_low":weather_data['tempretures_low'],
+        "Date":str(weather_data['Date']),
+        "Location":weather_data['Location']
+    }
+    with open(file=history_filepath, mode='a') as file:
+        file.write(json.dumps(json_weather_data) + '\n')
 
 
 weather_data=get_the_weather_data()
+save_the_weather(weather_data)
 print_the_weather(weather_data)
 
 
-
-   
