@@ -63,10 +63,7 @@ def print_the_weather(weather_data):
     print(f"Tempretures_low: {weather_data['tempretures_low']} Celsus")
 
 
-def print_my_date():
-    # Input examples:
-    # 20/07/2024
-    print('')
+
 
 
 def print_my_location(location_name):
