@@ -11,8 +11,10 @@ import sys
 
 def get_the_weather_data():
     openmeteo = openmeteo_requests.Client()
-
-    location_name = sys.argv[1]
+    if len(sys.argv) > 1:
+        location_name = sys.argv[1]
+    else:
+        location_name = get_user_input_location()
 
     url = "http://api.open-meteo.com/v1/forecast"
 
@@ -85,8 +87,13 @@ def print_my_location(location_name):
     'longitude': json_data['results'][0]['longitude']}
 
 
-
-
+def get_user_input_location():
+    while True:
+        user_input = input('Enter a location(or press Enter to exit):')
+        if user_input is not "":
+            return user_input
+        else:
+            exit()
 
 def save_the_weather(weather_data):
     history_filepath = 'check-weather-history.ndjson'
