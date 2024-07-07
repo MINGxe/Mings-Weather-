@@ -20,7 +20,11 @@ def get_the_weather_data():
 
     if len(sys.argv) > 2:
         input_date_text = sys.argv[2]
-        target_date = datetime.strptime(input_date_text, '%d/%m/%Y').date()
+        try:
+            target_date = datetime.strptime(input_date_text, '%d/%m/%Y').date()
+        except ValueError as error:
+            print("Incorrect date format, please use dd/mm/yy")
+            exit(1)
     else:
         target_date = date.today()
 
