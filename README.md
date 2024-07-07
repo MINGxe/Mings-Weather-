@@ -10,3 +10,14 @@ pip3 install -r requirements.txt
 ```
 
 ## Usage
+
+Check weather using this command:
+
+```
+python3 check-weather.py
+```
+
+Check the history using this command:
+
+```
+```
