@@ -45,7 +45,7 @@ Check today`s tempreture with location(any city name) with this command:
 python3 check-weather.py sydney
 ```
 
-Check today`s tempreture with location and a given date (16 days after current day) with this command (Date format must in dd/mm/yyyy):
+Check tempreture with location and a given date (16 days after current day) with this command (Date format must in dd/mm/yyyy):
 ```
 python3 check-weather.py sydney 10/7/2024
 ```
