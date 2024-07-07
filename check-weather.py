@@ -76,6 +76,11 @@ def print_my_location(location_name):
     response = requests.get(f'{url}?{urllib.parse.urlencode(params)}')
     json_data = response.json()
 
+    if 'results' not in json_data or len(json_data['results']) == 0: 
+        print("Incorrect location name.")
+        exit(1)
+
+
     return {'latitude': json_data['results'][0]['latitude'],
     'longitude': json_data['results'][0]['longitude']}
 
